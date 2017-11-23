@@ -27,6 +27,6 @@
     "nodemon": "^1.12.1"
   },
   "scripts": {
-    "dev": "cross-env NODE_ENV=dev nodemon --exec babel-node src/index.js"
+    "dev": "nodemon --exec babel-node src/index.js"
   }
 }
