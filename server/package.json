@@ -6,6 +6,7 @@
   "license": "MIT",
   "dependencies": {
     "apollo-server-express": "^1.2.0",
+    "bcrypt-nodejs": "^0.0.3",
     "body-parser": "^1.18.2",
     "cross-env": "^5.1.1",
     "express": "^4.16.2",
