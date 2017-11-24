@@ -19,6 +19,7 @@ export default `
     email: String!
     firstName: String
     lastName: String
+    avatar: String
     createdAt: Date!
     updatedAt: Date!
   }
