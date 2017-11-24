@@ -13,6 +13,16 @@ export default `
     updatedAt: Date!
   }
 
+  type User {
+    _id: ID!
+    username: String!
+    email: String!
+    firstName: String
+    lastName: String
+    createdAt: Date!
+    updatedAt: Date!
+  }
+
   type Query {
     getTweets: [Tweet]
     getTweet(_id: ID!): Tweet
