@@ -1,9 +1,9 @@
 /* @flow */
-import faker from "faker";
+import faker from 'faker';
 
-import Tweet from "../models/Tweet";
+import Tweet from '../models/Tweet';
 
-const TWEETS_TOTAL = 10;
+const TWEETS_TOTAL = 5;
 
 export default async () => {
   try {
@@ -11,7 +11,7 @@ export default async () => {
 
     await Array.from({ length: TWEETS_TOTAL }).forEach(async () => {
       await Tweet.create({
-        text: faker.lorem.paragraphs(1)
+        text: faker.lorem.paragraphs(1),
       });
     });
   } catch (error) {
