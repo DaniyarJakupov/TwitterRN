@@ -1,38 +1,15 @@
 /* @flow */
 import express from 'express';
-import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
-import { makeExecutableSchema } from 'graphql-tools';
 import { createServer } from 'http';
-import bodyParser from 'body-parser';
 
 import './config/db';
 import constants from './config/constants';
-import typeDefs from './graphql/schema';
-import resolvers from './graphql/resolvers';
 import mocks from './mocks';
+import middleware from './config/middleware';
 
 const app = express();
 
-const schema = makeExecutableSchema({
-  typeDefs,
-  resolvers,
-});
-
-app.use(bodyParser.json());
-
-app.use(
-  '/graphiql',
-  graphiqlExpress({
-    endpointURL: constants.GRAPHQL_PATH,
-  }),
-);
-
-app.use(
-  constants.GRAPHQL_PATH,
-  graphqlExpress({
-    schema,
-  }),
-);
+middleware(app);
 
 const graphQLServer = createServer(app);
 
@@ -44,12 +21,4 @@ mocks().then(() => {
       console.log(`App running on port: ${constants.PORT}`);
     }
   });
-});
-
-graphQLServer.listen(constants.PORT, (err) => {
-  if (err) {
-    console.error(err);
-  } else {
-    console.log(`App running on port: ${constants.PORT}`);
-  }
 });
