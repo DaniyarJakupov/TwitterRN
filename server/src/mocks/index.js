@@ -10,7 +10,7 @@ const USERS_TOTAL = 3;
 export default async () => {
   try {
     await Tweet.remove();
-    await User.remove();
+    // await User.remove();
 
     await Array.from({ length: USERS_TOTAL }).forEach(async (_, i) => {
       const user = await User.create({
