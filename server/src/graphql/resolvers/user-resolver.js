@@ -3,7 +3,7 @@ import User from '../../models/User';
 import { requireAuth } from '../../services/auth';
 
 export default {
-  signUp: async (_, { fullName, ...rest }) => {
+  signup: async (_, { fullName, ...rest }) => {
     const [firstName, ...lastName] = fullName.split(' ');
     try {
       const user = await User.create({ firstName, lastName, ...rest });

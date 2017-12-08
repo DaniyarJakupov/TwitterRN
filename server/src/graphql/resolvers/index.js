@@ -6,14 +6,15 @@ import UserResolver from './user-resolver';
 export default {
   Date: GraphQLDate,
   Query: {
-    getTweets: TweetResolvers.getTweets,
     getTweet: TweetResolvers.getTweet,
+    getTweets: TweetResolvers.getTweets,
+    me: UserResolver.me,
   },
   Mutation: {
     createTweet: TweetResolvers.createTweet,
     updateTweet: TweetResolvers.updateTweet,
     deleteTweet: TweetResolvers.deleteTweet,
-    signUp: UserResolver.signup,
+    signup: UserResolver.signup,
     login: UserResolver.login,
   },
 };
