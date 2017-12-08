@@ -21,6 +21,15 @@ export default {
     }
   },
 
+  getUserTweets: async (_, args, { user }) => {
+    try {
+      await requireAuth(user);
+      return Tweet.find({ user: user._id }).sort({ createdAt: -1 });
+    } catch (error) {
+      throw error;
+    }
+  },
+
   createTweet: async (_, args, { user }) => {
     try {
       await requireAuth(user);
