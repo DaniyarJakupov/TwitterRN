@@ -36,7 +36,7 @@ UserSchema.methods = {
     return compareSync(password, this.password);
   },
   createToken() {
-    return jwt.sign({ _id: this.id }, constants.JWT_SECRET);
+    return jwt.sign({ _id: this._id }, constants.JWT_SECRET);
   },
 };
 
