@@ -12,7 +12,6 @@ const Wrapper = styled.View`
   width: 100%;
   flex-direction: row;
 `;
-const Text = styled.Text``;
 const Button = styled.TouchableOpacity`
   flex: 1;
   flex-direction: row;

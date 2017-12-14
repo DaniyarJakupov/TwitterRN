@@ -7,7 +7,6 @@ const Wrapper = styled.View`
   flex-direction: row;
   align-items: center;
 `;
-const Text = styled.Text``;
 const AvatarWrapper = styled.View`
   flex: 0.2;
   align-self: stretch;
@@ -68,6 +67,7 @@ const FeedCardHeader = () => (
         </MetaFullName>
         <MetaText style={{ marginLeft: 5 }}>@{username}</MetaText>
       </MetaTopContainer>
+
       <MetaBottomContainer>
         <MetaText>{createdAt}</MetaText>
       </MetaBottomContainer>
