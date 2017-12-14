@@ -1,5 +1,7 @@
+// @flow
 import React from 'react';
 import styled from 'styled-components/native';
+import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 
 const Wrapper = styled.View`
   height: 50;
@@ -49,15 +51,10 @@ const MetaText = styled.Text`
   color: ${props => props.theme.LIGHT_GRAY};
 `;
 
-const username = 'Dan';
-const firstName = 'Daniyar';
-const lastName = 'Jakupov';
-const createdAt = '2 days ago';
-
-const FeedCardHeader = () => (
+const FeedCardHeader = ({ user: { firstName, lastName, username, avatar }, createdAt }) => (
   <Wrapper>
     <AvatarWrapper>
-      <Avatar source={{ uri: 'https://pbs.twimg.com/profile_images/932979502224953344/GSSBn8wF_400x400.jpg' }} />
+      <Avatar source={{ uri: avatar }} />
     </AvatarWrapper>
 
     <MetaWrapper>
@@ -69,7 +66,7 @@ const FeedCardHeader = () => (
       </MetaTopContainer>
 
       <MetaBottomContainer>
-        <MetaText>{createdAt}</MetaText>
+        <MetaText>{distanceInWordsToNow(createdAt)} ago</MetaText>
       </MetaBottomContainer>
     </MetaWrapper>
   </Wrapper>

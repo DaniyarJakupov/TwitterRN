@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import styled from 'styled-components/native';
 
@@ -26,21 +27,16 @@ const CardContentText = styled.Text`
   color: ${props => props.theme.SECONDARY};
 `;
 
-const FeedCard = () => {
-  const text =
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla pharetra laoreet nibh, et semper lacus pretium in. Aenean tempor turpis duis.';
+const FeedCard = ({ text, favoriteCount, createdAt, user }) => (
+  <Wrapper>
+    <FeedCardHeader user={user} createdAt={createdAt} />
 
-  return (
-    <Wrapper>
-      <FeedCardHeader />
+    <CardContentWrapper>
+      <CardContentText>{text}</CardContentText>
+    </CardContentWrapper>
 
-      <CardContentWrapper>
-        <CardContentText>{text}</CardContentText>
-      </CardContentWrapper>
-
-      <FeedCardFooter />
-    </Wrapper>
-  );
-};
+    <FeedCardFooter favoriteCount={favoriteCount} />
+  </Wrapper>
+);
 
 export default FeedCard;

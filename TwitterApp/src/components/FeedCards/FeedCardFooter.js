@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import styled from 'styled-components/native';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
@@ -26,10 +27,9 @@ const ButtonText = styled.Text`
   color: ${props => props.theme.LIGHT_GRAY};
 `;
 
-const favoriteCount = 3;
 const isFavorited = false;
 
-const FeedCardFooter = () => (
+const FeedCardFooter = ({ favoriteCount }) => (
   <Wrapper>
     <Button>
       <SimpleLineIcons name="bubble" size={ICON_SIZE} color={colors.LIGHT_GRAY} />
