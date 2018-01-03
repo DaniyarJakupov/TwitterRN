@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { Dimensions } from 'react-native';
+import { Dimensions, LayoutAnimation } from 'react-native';
 import styled from 'styled-components/native';
 
 import SignupForm from '../components/SignupForm';
@@ -53,10 +53,11 @@ const LoginText = styled.Text`
 
 class AuthScreen extends Component {
   state = {
-    showSignup: true,
+    showSignup: false,
   };
 
   onSignupPress = () => {
+    LayoutAnimation.easeInEaseOut();
     this.setState(prevState => ({
       showSignup: !prevState.showSignup,
     }));
