@@ -4,12 +4,14 @@ import styled from 'styled-components/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { Sae } from 'react-native-textinput-effects';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
+import { connect } from 'react-redux';
 
 import Loading from '../components/Loading';
 import { colors } from '../utils/constants';
 
-import SIGNUP_MUTATION from '../graphql/mutation/signup';
+import SIGNUP_MUTATION from '../graphql/mutation/signup'; // graphql mutation
+import { userLogin } from '../redux/actions'; // redux action
 
 const Wrapper = styled.View`
   flex: 1;
@@ -69,13 +71,14 @@ class SignupForm extends Component {
 
     const { fullName, email, password, username } = this.state;
     const avatar = 'https://pbs.twimg.com/profile_images/932979502224953344/GSSBn8wF_400x400.jpg';
-    const { data } = await this.props.mutate({
-      variables: { fullName, email, password, username, avatar },
-    });
 
     try {
+      const { data } = await this.props.mutate({
+        variables: { fullName, email, password, username, avatar },
+      });
+      this.setState({ loading: false });
       await AsyncStorage.setItem('@customtwitter', data.signup.token);
-      return this.setState({ loading: false });
+      return this.props.userLogin();
     } catch (error) {
       throw error;
     }
@@ -166,4 +169,4 @@ class SignupForm extends Component {
   }
 }
 
-export default graphql(SIGNUP_MUTATION)(SignupForm);
+export default compose(graphql(SIGNUP_MUTATION), connect(undefined, { userLogin }))(SignupForm);
