@@ -28,7 +28,8 @@
     "flow-bin": "0.59.0",
     "jest": "21.2.1",
     "react-test-renderer": "16.0.0",
-    "redux-devtools-extension": "^2.13.2"
+    "redux-devtools-extension": "^2.13.2",
+    "redux-logger": "^3.0.6"
   },
   "jest": {
     "preset": "react-native"
