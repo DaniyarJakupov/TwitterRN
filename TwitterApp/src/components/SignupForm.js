@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { Keyboard } from 'react-native';
 import styled from 'styled-components/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import { Sae } from 'react-native-textinput-effects';
 
 import { colors } from '../utils/constants';
 
@@ -10,25 +13,18 @@ const Wrapper = styled.View`
   justify-content: center;
   align-items: center;
 `;
+const TouchableWithoutFeedback = styled.TouchableWithoutFeedback``;
 const BackBtn = styled.TouchableOpacity`
   position: absolute;
   justify-content: center;
   align-items: center;
   top: 5%;
-  left: 5%;
+  left: 0;
+  padding: 15px;
 `;
 const InputWrapper = styled.View`
   width: 90%;
-  height: 40%;
-  justify-content: center;
-  align-items: center;
-  background-color: lightblue;
-`;
-const TextInput = styled.TextInput`
-  height: 40;
-  width: 90%;
-  border-color: red;
-  border-width: 1;
+  height: 50%;
 `;
 const ConfirmBtn = styled.TouchableOpacity`
   position: absolute;
@@ -38,7 +34,6 @@ const ConfirmBtn = styled.TouchableOpacity`
   width: 70%;
   height: 50;
   border-radius: 10;
-  background-color: ${props => props.theme.PRIMARY};
   shadow-opacity: 0.4;
   shadow-radius: 5;
   shadow-offset: 0px 4px;
@@ -58,25 +53,89 @@ class SignupForm extends Component {
     username: '',
   };
 
-  onNameChange = text => {
-    this.setState({ fullName: text });
+  onOutsidePress = () => Keyboard.dismiss();
+
+  onTextChange = (text, type) => {
+    this.setState({ [type]: text });
   };
+
+  isDisabled() {
+    const { fullName, email, password, username } = this.state;
+    if (!fullName || !email || !password || !username) {
+      return true;
+    }
+    return false;
+  }
 
   render() {
     return (
-      <Wrapper>
-        <BackBtn onPress={this.props.onBackPress}>
-          <MaterialIcons name="keyboard-backspace" color={colors.WHITE} size={40} />
-        </BackBtn>
+      <TouchableWithoutFeedback onPress={this.onOutsidePress}>
+        <Wrapper>
+          <BackBtn onPress={this.props.onBackPress}>
+            <MaterialIcons name="keyboard-backspace" color={colors.WHITE} size={40} />
+          </BackBtn>
 
-        <InputWrapper>
-          <TextInput onChangeText={this.onNameChange} value={this.state.fullName} />
-        </InputWrapper>
+          <InputWrapper>
+            <Sae
+              label={'Full Name'}
+              labelStyle={{ color: colors.PRIMARY }}
+              iconClass={FontAwesomeIcon}
+              iconName={'pencil'}
+              iconColor={'white'}
+              value={this.state.fullName}
+              // TextInput props
+              autoCapitalize="words"
+              autoCorrect={false}
+              onChangeText={text => this.onTextChange(text, 'fullName')}
+            />
 
-        <ConfirmBtn>
-          <ConfirmText>Signup</ConfirmText>
-        </ConfirmBtn>
-      </Wrapper>
+            <Sae
+              label={'Username'}
+              labelStyle={{ color: colors.PRIMARY }}
+              iconClass={FontAwesomeIcon}
+              iconName={'pencil'}
+              iconColor={'white'}
+              // TextInput props
+              autoCapitalize={'none'}
+              autoCorrect={false}
+              onChangeText={text => this.onTextChange(text, 'username')}
+            />
+
+            <Sae
+              label={'Email'}
+              labelStyle={{ color: colors.PRIMARY }}
+              iconClass={FontAwesomeIcon}
+              iconName={'pencil'}
+              iconColor={'white'}
+              // TextInput props
+              keyboardType="email-address"
+              autoCapitalize={'none'}
+              autoCorrect={false}
+              onChangeText={text => this.onTextChange(text, 'email')}
+            />
+
+            <Sae
+              label={'Password'}
+              labelStyle={{ color: colors.PRIMARY }}
+              iconClass={FontAwesomeIcon}
+              iconName={'pencil'}
+              iconColor={'white'}
+              // TextInput props
+              autoCapitalize={'none'}
+              autoCorrect={false}
+              secureTextEntry
+              onChangeText={text => this.onTextChange(text, 'password')}
+            />
+          </InputWrapper>
+
+          <ConfirmBtn
+            disabled={this.isDisabled()}
+            style={this.isDisabled() ? { backgroundColor: colors.LIGHT_GRAY } : { backgroundColor: colors.PRIMARY }}
+          >
+            <ConfirmText style={this.isDisabled() ? { color: '#000' } : { color: '#fff' }}>Signup</ConfirmText>
+          </ConfirmBtn>
+        </Wrapper>
+      </TouchableWithoutFeedback>
     );
   }
 }
