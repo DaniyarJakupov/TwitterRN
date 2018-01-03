@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
-import { Keyboard } from 'react-native';
+import { Keyboard, AsyncStorage } from 'react-native';
 import styled from 'styled-components/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { Sae } from 'react-native-textinput-effects';
+import { graphql } from 'react-apollo';
 
+import Loading from '../components/Loading';
 import { colors } from '../utils/constants';
+
+import SIGNUP_MUTATION from '../graphql/mutation/signup';
 
 const Wrapper = styled.View`
   flex: 1;
@@ -51,12 +55,30 @@ class SignupForm extends Component {
     email: '',
     password: '',
     username: '',
+    loading: false,
   };
 
   onOutsidePress = () => Keyboard.dismiss();
 
   onTextChange = (text, type) => {
     this.setState({ [type]: text });
+  };
+
+  onConfirmPress = async () => {
+    this.setState({ loading: true });
+
+    const { fullName, email, password, username } = this.state;
+    const avatar = 'https://pbs.twimg.com/profile_images/932979502224953344/GSSBn8wF_400x400.jpg';
+    const { data } = await this.props.mutate({
+      variables: { fullName, email, password, username, avatar },
+    });
+
+    try {
+      await AsyncStorage.setItem('@customtwitter', data.signup.token);
+      return this.setState({ loading: false });
+    } catch (error) {
+      throw error;
+    }
   };
 
   isDisabled() {
@@ -68,6 +90,9 @@ class SignupForm extends Component {
   }
 
   render() {
+    if (this.state.loading) {
+      return <Loading />;
+    }
     return (
       <TouchableWithoutFeedback onPress={this.onOutsidePress}>
         <Wrapper>
@@ -129,6 +154,7 @@ class SignupForm extends Component {
           </InputWrapper>
 
           <ConfirmBtn
+            onPress={this.onConfirmPress}
             disabled={this.isDisabled()}
             style={this.isDisabled() ? { backgroundColor: colors.LIGHT_GRAY } : { backgroundColor: colors.PRIMARY }}
           >
@@ -140,4 +166,4 @@ class SignupForm extends Component {
   }
 }
 
-export default SignupForm;
+export default graphql(SIGNUP_MUTATION)(SignupForm);
