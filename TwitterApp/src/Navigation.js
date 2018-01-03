@@ -3,6 +3,7 @@ import { addNavigationHelpers, StackNavigator, TabNavigator } from 'react-naviga
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import AuthScreen from './screens/AuthScreen';
 import HomeScreen from './screens/HomeScreen';
 import ExploreScreen from './screens/ExploreScreen';
 import NotificationsScreen from './screens/NotificationsScreen';
@@ -89,12 +90,16 @@ class AppNavigator extends Component {
       dispatch: this.props.dispatch,
       state: this.props.nav,
     });
+    if (!this.props.user.isAuth) {
+      return <AuthScreen />;
+    }
     return <AppMainNav navigation={nav} />;
   }
 }
 
 const mapStateToProps = state => ({
   nav: state.nav,
+  user: state.user,
 });
 
 export default connect(mapStateToProps)(AppNavigator);
