@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 
+import SignupForm from '../components/SignupForm';
+
 const { height } = Dimensions.get('window');
 
 const Wrapper = styled.View`
@@ -28,6 +30,7 @@ const SignupBtn = styled.TouchableOpacity`
   shadow-radius: 5;
   shadow-offset: 0px 4px;
   shadow-color: #000;
+  elevation: 2;
 `;
 const SignupText = styled.Text`
   font-size: 22;
@@ -49,11 +52,27 @@ const LoginText = styled.Text`
 `;
 
 class AuthScreen extends Component {
-  state = {};
+  state = {
+    showSignup: true,
+  };
+
+  onSignupPress = () => {
+    this.setState(prevState => ({
+      showSignup: !prevState.showSignup,
+    }));
+  };
+
   render() {
+    if (this.state.showSignup) {
+      return (
+        <Wrapper>
+          <SignupForm onBackPress={this.onSignupPress} />
+        </Wrapper>
+      );
+    }
     return (
       <Wrapper>
-        <SignupBtn>
+        <SignupBtn onPress={this.onSignupPress}>
           <SignupText>Get Started</SignupText>
         </SignupBtn>
 
