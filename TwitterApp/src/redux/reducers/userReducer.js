@@ -1,3 +1,4 @@
+// @flow
 const initState = {
   token: null,
   isAuth: false,

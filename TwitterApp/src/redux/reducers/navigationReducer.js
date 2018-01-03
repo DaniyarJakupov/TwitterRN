@@ -1,3 +1,4 @@
+// @flow
 import { router } from '../../Navigation';
 
 export default (state, action) => {
