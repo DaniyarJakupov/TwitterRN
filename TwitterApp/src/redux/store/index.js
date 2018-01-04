@@ -18,7 +18,7 @@ networkInterface.use([
         req.options.headers = {};
       }
       try {
-        const token = await AsyncStorage.getItem('@customtwitter');
+        const token = await AsyncStorage.getItem('@customtwittertoken');
 
         if (token != null) {
           req.options.headers.authorization = `Bearer ${token}` || null;

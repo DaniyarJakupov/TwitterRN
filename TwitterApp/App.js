@@ -22,13 +22,13 @@ export default class App extends Component<{}> {
     appIsReady: false,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.checkToken();
   }
 
   checkToken = async () => {
     try {
-      const token = await AsyncStorage.getItem('@customtwitter');
+      const token = await AsyncStorage.getItem('@customtwittertoken');
 
       if (token != null) {
         store.dispatch(userLogin());

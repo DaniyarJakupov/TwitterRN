@@ -75,8 +75,7 @@ class SignupForm extends Component {
       const { data } = await this.props.mutate({
         variables: { fullName, email, password, username, avatar },
       });
-      this.setState({ loading: false });
-      await AsyncStorage.setItem('@customtwitter', data.signup.token);
+      await AsyncStorage.setItem('@customtwittertoken', data.signup.token);
       return this.props.userLogin();
     } catch (error) {
       throw error;
