@@ -8,7 +8,7 @@ import { graphql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
 
 import Loading from '../components/Loading';
-import { colors } from '../utils/constants';
+import { colors, avatar } from '../utils/constants';
 
 import SIGNUP_MUTATION from '../graphql/mutation/signup'; // graphql mutation
 import { userLogin } from '../redux/actions'; // redux action
@@ -70,7 +70,7 @@ class SignupForm extends Component {
     this.setState({ loading: true });
 
     const { fullName, email, password, username } = this.state;
-    const avatar = 'https://pbs.twimg.com/profile_images/932979502224953344/GSSBn8wF_400x400.jpg';
+    // const avatar = 'https://pbs.twimg.com/profile_images/932979502224953344/GSSBn8wF_400x400.jpg';
 
     try {
       const { data } = await this.props.mutate({
