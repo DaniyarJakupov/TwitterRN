@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { Keyboard } from 'react-native';
 import { addNavigationHelpers, StackNavigator, TabNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import AuthScreen from './screens/AuthScreen';
 import HomeScreen from './screens/HomeScreen';
@@ -31,7 +33,9 @@ const Tabs = TabNavigator(
       screen: ExploreScreen,
       navigationOptions: () => ({
         headerTitle: 'Explore',
-        tabBarIcon: ({ tintColor }) => <Icon size={TAB_ICON_SIZE} color={tintColor} name="search" />,
+        tabBarIcon: ({ tintColor }) => (
+          <Icon size={TAB_ICON_SIZE} color={tintColor} name="search" />
+        ),
       }),
     },
     Notifications: {
@@ -52,7 +56,7 @@ const Tabs = TabNavigator(
   {
     lazy: true,
     tabBarPosition: 'bottom',
-    swipeEnabled: false,
+    swipeEnabled: true,
     tabBarOptions: {
       showIcon: true,
       showLabel: false,
@@ -71,10 +75,25 @@ const NewTweetModal = StackNavigator(
   {
     NewTweet: {
       screen: NewTweetScreen,
+      navigationOptions: ({ navigation }) => ({
+        headerLeft: <HeaderAvatar disable />,
+        headerRight: (
+          <HeaderButton
+            side="right"
+            onPress={() => {
+              Keyboard.dismiss();
+              navigation.goBack(null);
+            }}
+          >
+            <MaterialIcons size={25} color={colors.PRIMARY} name="close" />
+          </HeaderButton>
+        ),
+      }),
     },
   },
   {
     headerMode: 'none',
+    mode: 'card',
   }
 );
 
