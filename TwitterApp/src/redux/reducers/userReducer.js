@@ -1,5 +1,5 @@
 // @flow
-import { LOGIN_SUCCESS, GET_USER_INFO } from '../actions/types';
+import { LOGIN_SUCCESS, GET_USER_INFO, LOGOUT } from '../actions/types';
 
 const initState = {
   isAuth: false,
@@ -12,6 +12,8 @@ export default (state = initState, action) => {
       return { ...state, isAuth: true };
     case GET_USER_INFO:
       return { ...state, info: action.payload };
+    case LOGOUT:
+      return initState;
     default:
       return state;
   }
