@@ -9,6 +9,8 @@ import ExploreScreen from './screens/ExploreScreen';
 import NotificationsScreen from './screens/NotificationsScreen';
 import ProfileScreen from './screens/ProfileScreen';
 
+import HeaderAvatar from './components/HeaderAvatar';
+
 import { colors } from './utils/constants';
 
 const TAB_ICON_SIZE = 20;
@@ -66,6 +68,9 @@ const AppMainNav = StackNavigator(
   {
     Home: {
       screen: Tabs,
+      navigationOptions: () => ({
+        headerLeft: <HeaderAvatar />,
+      }),
     },
   },
   {
