@@ -24,15 +24,27 @@ const Tabs = TabNavigator(
   {
     Home: {
       screen: HomeScreen,
-      navigationOptions: () => ({
+      navigationOptions: ({ navigation }) => ({
         headerTitle: 'Home',
+        headerLeft: <HeaderAvatar />,
+        headerRight: (
+          <HeaderButton side="right" onPress={() => navigation.navigate('NewTweet')}>
+            <MaterialCommunityIcons size={25} color={colors.PRIMARY} name="feather" />
+          </HeaderButton>
+        ),
         tabBarIcon: ({ tintColor }) => <Icon size={TAB_ICON_SIZE} color={tintColor} name="home" />,
       }),
     },
     Explore: {
       screen: ExploreScreen,
-      navigationOptions: () => ({
+      navigationOptions: ({ navigation }) => ({
         headerTitle: 'Explore',
+        headerLeft: <HeaderAvatar />,
+        headerRight: (
+          <HeaderButton side="right" onPress={() => {}}>
+            <Icon size={25} color={colors.PRIMARY} name="search" />
+          </HeaderButton>
+        ),
         tabBarIcon: ({ tintColor }) => (
           <Icon size={TAB_ICON_SIZE} color={tintColor} name="search" />
         ),
@@ -42,6 +54,12 @@ const Tabs = TabNavigator(
       screen: NotificationsScreen,
       navigationOptions: () => ({
         headerTitle: 'Notifications',
+        headerLeft: <HeaderAvatar />,
+        headerRight: (
+          <HeaderButton side="right" onPress={() => {}}>
+            <Icon size={25} color={colors.PRIMARY} name="bell" />
+          </HeaderButton>
+        ),
         tabBarIcon: ({ tintColor }) => <Icon size={TAB_ICON_SIZE} color={tintColor} name="bell" />,
       }),
     },
@@ -49,6 +67,12 @@ const Tabs = TabNavigator(
       screen: ProfileScreen,
       navigationOptions: () => ({
         headerTitle: 'Profile',
+        headerLeft: <HeaderAvatar />,
+        headerRight: (
+          <HeaderButton side="right" onPress={() => {}}>
+            <Icon size={25} color={colors.PRIMARY} name="user" />
+          </HeaderButton>
+        ),
         tabBarIcon: ({ tintColor }) => <Icon size={TAB_ICON_SIZE} color={tintColor} name="user" />,
       }),
     },
@@ -101,14 +125,6 @@ const AppMainNav = StackNavigator(
   {
     Home: {
       screen: Tabs,
-      navigationOptions: ({ navigation }) => ({
-        headerLeft: <HeaderAvatar />,
-        headerRight: (
-          <HeaderButton side="right" onPress={() => navigation.navigate('NewTweet')}>
-            <MaterialCommunityIcons size={25} color={colors.PRIMARY} name="feather" />
-          </HeaderButton>
-        ),
-      }),
     },
     NewTweet: {
       screen: NewTweetModal,
