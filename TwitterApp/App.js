@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { UIManager, AsyncStorage } from 'react-native';
 import { ApolloProvider } from 'react-apollo';
 import { ThemeProvider } from 'styled-components';
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 
 import { store, client } from './src/redux/store';
 import { colors } from './src/utils/constants';
@@ -44,9 +45,11 @@ export default class App extends Component<{}> {
     }
     return (
       <ApolloProvider store={store} client={client}>
-        <ThemeProvider theme={colors}>
-          <AppNavigation />
-        </ThemeProvider>
+        <ActionSheetProvider>
+          <ThemeProvider theme={colors}>
+            <AppNavigation />
+          </ThemeProvider>
+        </ActionSheetProvider>
       </ApolloProvider>
     );
   }
