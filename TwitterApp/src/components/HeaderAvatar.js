@@ -41,7 +41,7 @@ class HeaderAvatar extends Component {
   };
 
   render() {
-    const { user } = this.props;
+    const { user, disable = false } = this.props;
     if (user == null) {
       return (
         <HeaderButton disabled side="left">
@@ -50,7 +50,7 @@ class HeaderAvatar extends Component {
       );
     }
     return (
-      <HeaderButton onPress={this.onOpenActionSheet} side="left">
+      <HeaderButton onPress={this.onOpenActionSheet} side="left" disabled={disable}>
         <Avatar source={{ uri: user.avatar }} />
       </HeaderButton>
     );
@@ -61,4 +61,6 @@ const mapStateToProps = state => ({
   user: state.user.info,
 });
 
-export default withApollo(connect(mapStateToProps, { userLogout })(connectActionSheet(HeaderAvatar)));
+export default withApollo(
+  connect(mapStateToProps, { userLogout })(connectActionSheet(HeaderAvatar))
+);
