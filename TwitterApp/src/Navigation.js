@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { addNavigationHelpers, StackNavigator, TabNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import AuthScreen from './screens/AuthScreen';
 import HomeScreen from './screens/HomeScreen';
@@ -10,6 +11,7 @@ import NotificationsScreen from './screens/NotificationsScreen';
 import ProfileScreen from './screens/ProfileScreen';
 
 import HeaderAvatar from './components/HeaderAvatar';
+import HeaderButton from './components/HeaderButton';
 
 import { colors } from './utils/constants';
 
@@ -70,6 +72,11 @@ const AppMainNav = StackNavigator(
       screen: Tabs,
       navigationOptions: () => ({
         headerLeft: <HeaderAvatar />,
+        headerRight: (
+          <HeaderButton side="right">
+            <MaterialCommunityIcons size={25} color={colors.PRIMARY} name="feather" />
+          </HeaderButton>
+        ),
       }),
     },
   },
