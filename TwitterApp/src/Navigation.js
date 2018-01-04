@@ -9,6 +9,7 @@ import HomeScreen from './screens/HomeScreen';
 import ExploreScreen from './screens/ExploreScreen';
 import NotificationsScreen from './screens/NotificationsScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import NewTweetScreen from './screens/NewTweetScreen';
 
 import HeaderAvatar from './components/HeaderAvatar';
 import HeaderButton from './components/HeaderButton';
@@ -66,21 +67,36 @@ const Tabs = TabNavigator(
   }
 );
 
+const NewTweetModal = StackNavigator(
+  {
+    NewTweet: {
+      screen: NewTweetScreen,
+    },
+  },
+  {
+    headerMode: 'none',
+  }
+);
+
 const AppMainNav = StackNavigator(
   {
     Home: {
       screen: Tabs,
-      navigationOptions: () => ({
+      navigationOptions: ({ navigation }) => ({
         headerLeft: <HeaderAvatar />,
         headerRight: (
-          <HeaderButton side="right">
+          <HeaderButton side="right" onPress={() => navigation.navigate('NewTweet')}>
             <MaterialCommunityIcons size={25} color={colors.PRIMARY} name="feather" />
           </HeaderButton>
         ),
       }),
     },
+    NewTweet: {
+      screen: NewTweetModal,
+    },
   },
   {
+    mode: 'modal',
     cardStyle: {
       backgroundColor: '#F1F6FA',
     },
