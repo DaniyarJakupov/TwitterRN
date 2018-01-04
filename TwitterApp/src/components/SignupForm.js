@@ -70,7 +70,6 @@ class SignupForm extends Component {
     this.setState({ loading: true });
 
     const { fullName, email, password, username } = this.state;
-    // const avatar = 'https://pbs.twimg.com/profile_images/932979502224953344/GSSBn8wF_400x400.jpg';
 
     try {
       const { data } = await this.props.mutate({

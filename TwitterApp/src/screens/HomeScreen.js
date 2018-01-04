@@ -1,12 +1,15 @@
 // @flow
 import React, { Component } from 'react';
 import styled from 'styled-components/native';
-import { graphql } from 'react-apollo';
+import { graphql, compose, withApollo } from 'react-apollo';
 import { ActivityIndicator, FlatList } from 'react-native';
+import { connect } from 'react-redux';
 
 import FeedCard from '../components/FeedCards/FeedCard';
 
-import GET_TWEETS_QUERY from '../graphql/queries/getTweets';
+import GET_TWEETS_QUERY from '../graphql/queries/getTweets'; // graphql query
+import GET_ME_QUERY from '../graphql/queries/me'; // graphql query
+import { getUserInfo } from '../redux/actions'; // redux action
 
 const Wrapper = styled.View`
   flex: 1;
@@ -15,6 +18,15 @@ const Wrapper = styled.View`
 
 class HomeScreen extends Component {
   state = {};
+
+  componentDidMount() {
+    this._getUserInfo();
+  }
+
+  _getUserInfo = async () => {
+    const { data: { me } } = await this.props.client.query({ query: GET_ME_QUERY });
+    this.props.getUserInfo(me);
+  };
 
   _renderItem = ({ item }) => <FeedCard {...item} />;
 
@@ -40,4 +52,4 @@ class HomeScreen extends Component {
   }
 }
 
-export default graphql(GET_TWEETS_QUERY)(HomeScreen);
+export default withApollo(compose(graphql(GET_TWEETS_QUERY), connect(undefined, { getUserInfo }))(HomeScreen));

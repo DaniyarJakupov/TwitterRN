@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 
 import Loading from '../components/Loading';
 
-import { avatar } from '../utils/constants';
-
 const AVATAR_SIZE = 30;
 const AVATAR_RADIUS = AVATAR_SIZE / 2;
 
@@ -23,8 +21,8 @@ const Touchable = styled.TouchableOpacity`
 class HeaderAvatar extends Component {
   state = {};
   render() {
-    const info = false;
-    if (!info) {
+    const { user } = this.props;
+    if (user == null) {
       return (
         <Touchable disabled>
           <Loading size="small" />
@@ -33,10 +31,14 @@ class HeaderAvatar extends Component {
     }
     return (
       <Touchable>
-        <Avatar source={{ uri: avatar }} />
+        <Avatar source={{ uri: user.avatar }} />
       </Touchable>
     );
   }
 }
 
-export default HeaderAvatar;
+const mapStateToProps = state => ({
+  user: state.user.info,
+});
+
+export default connect(mapStateToProps)(HeaderAvatar);
