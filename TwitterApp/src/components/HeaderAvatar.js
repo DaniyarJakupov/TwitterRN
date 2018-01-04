@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import styled from 'styled-components/native';
 import { connect } from 'react-redux';
+import { withApollo } from 'react-apollo';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
+
+import { userLogout } from '../redux/actions'; // redux action
 
 import Loading from '../components/Loading';
 
@@ -33,7 +36,8 @@ class HeaderAvatar extends Component {
       },
       buttonIndex => {
         if (buttonIndex === 0) {
-          console.log('logout');
+          this.props.client.resetStore(); // reset apollo store since user is logedout
+          return this.props.userLogout();
         }
       }
     );
@@ -60,4 +64,4 @@ const mapStateToProps = state => ({
   user: state.user.info,
 });
 
-export default connect(mapStateToProps)(connectActionSheet(HeaderAvatar));
+export default withApollo(connect(mapStateToProps, { userLogout })(connectActionSheet(HeaderAvatar)));
