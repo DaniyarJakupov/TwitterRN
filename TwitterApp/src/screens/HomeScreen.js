@@ -4,8 +4,12 @@ import styled from 'styled-components/native';
 import { graphql, compose, withApollo } from 'react-apollo';
 import { ActivityIndicator, FlatList } from 'react-native';
 import { connect } from 'react-redux';
+import ActionButton from 'react-native-action-button';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import FeedCard from '../components/FeedCards/FeedCard';
+
+import { colors } from '../utils/constants';
 
 import GET_TWEETS_QUERY from '../graphql/queries/getTweets'; // graphql query
 import GET_ME_QUERY from '../graphql/queries/me'; // graphql query
@@ -47,6 +51,8 @@ class HomeScreen extends Component {
           keyExtractor={item => item._id}
           renderItem={this._renderItem}
         />
+
+        <ActionButton buttonColor={colors.PRIMARY} icon={<Icon size={25} color={colors.WHITE} name="feather" />} onPress={() => console.log('FAB')} />
       </Wrapper>
     );
   }
