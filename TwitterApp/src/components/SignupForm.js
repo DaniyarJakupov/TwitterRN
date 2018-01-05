@@ -157,9 +157,15 @@ class SignupForm extends Component {
           <ConfirmBtn
             onPress={this.onConfirmPress}
             disabled={this.isDisabled()}
-            style={this.isDisabled() ? { backgroundColor: colors.LIGHT_GRAY } : { backgroundColor: colors.PRIMARY }}
+            style={
+              this.isDisabled()
+                ? { backgroundColor: colors.LIGHT_GRAY }
+                : { backgroundColor: colors.PRIMARY }
+            }
           >
-            <ConfirmText style={this.isDisabled() ? { color: '#000' } : { color: '#fff' }}>Signup</ConfirmText>
+            <ConfirmText style={this.isDisabled() ? { color: '#000' } : { color: '#fff' }}>
+              Signup
+            </ConfirmText>
           </ConfirmBtn>
         </Wrapper>
       </TouchableWithoutFeedback>

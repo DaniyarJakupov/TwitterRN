@@ -23,7 +23,7 @@ const CardContentWrapper = styled.View`
 const CardContentText = styled.Text`
   font-size: 14;
   text-align: left;
-  font-weight: 500;
+  font-weight: 400;
   color: ${props => props.theme.SECONDARY};
 `;
 
