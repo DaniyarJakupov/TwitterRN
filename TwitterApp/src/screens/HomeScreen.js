@@ -32,7 +32,7 @@ class HomeScreen extends Component {
   };
 
   _getUserInfo = async () => {
-    const { data: { me } } = await this.props.client.query({ query: GET_ME_QUERY });
+    const { data: { me } } = await this.props.client.query({ query: GET_ME_QUERY }); // get user info
     this.props.getUserInfo(me);
   };
 
