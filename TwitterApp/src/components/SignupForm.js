@@ -8,7 +8,7 @@ import { graphql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
 
 import Loading from '../components/Loading';
-import { colors, avatar } from '../utils/constants';
+import { colors } from '../utils/constants';
 
 import SIGNUP_MUTATION from '../graphql/mutation/signup'; // graphql mutation
 import { userLogin } from '../redux/actions'; // redux action
@@ -68,7 +68,9 @@ class SignupForm extends Component {
 
   onConfirmPress = async () => {
     this.setState({ loading: true });
-
+    const randomNum = Math.floor(Math.random() * 100);
+    const gender = randomNum % 2 === 0 ? 'women' : 'men';
+    const avatar = `https://randomuser.me/api/portraits/${gender}/${randomNum}.jpg`;
     const { fullName, email, password, username } = this.state;
 
     try {
