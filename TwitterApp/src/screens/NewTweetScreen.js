@@ -2,8 +2,13 @@
 import React, { Component } from 'react';
 import { Keyboard } from 'react-native';
 import styled from 'styled-components/native';
+import { graphql, compose } from 'react-apollo';
+import { connect } from 'react-redux';
 
 import { colors } from '../utils/constants';
+
+import CREATE_TWEET_MUTATION from '../graphql/mutation/createTweet'; // graphql mutation
+import GET_TWEETS_QUERY from '../graphql/queries/getTweets'; // graphql query
 
 const Wrapper = styled.View`
   background-color: ${props => props.theme.WHITE};
@@ -28,7 +33,6 @@ const TweetBtn = styled.TouchableOpacity`
   top: 60%;
   width: 80;
   height: 40;
-  background-color: ${props => props.theme.PRIMARY};
   border-radius: 20;
   justify-content: center;
   align-items: center;
@@ -58,6 +62,55 @@ class NewTweetScreen extends Component {
     this.setState({ text });
   };
 
+  onTweetSend = async () => {
+    Keyboard.dismiss();
+
+    const { text } = this.state;
+    const { user } = this.props;
+    try {
+      await this.props.mutate({
+        variables: { text },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          createTweet: {
+            __typename: 'Tweet',
+            _id: Math.floor(Math.random() * -1000000),
+            text: this.state.text,
+            favoriteCount: 0,
+            createdAt: new Date(),
+            user: {
+              __typename: 'User',
+              avatar: user.avatar,
+              username: user.username,
+              firstName: user.firstName,
+              lastName: user.lastName,
+            },
+          },
+        },
+        update: (store, { data: { createTweet } }) => {
+          // Read the data from our cache. (array of tweets fetched in HomeScreen)
+          const data = store.readQuery({ query: GET_TWEETS_QUERY });
+          // If new tweet doesn't exist in GET_TWEETS_QUERY from HomeScreen, add new tweet to it
+          if (!data.getTweets.find(tweet => tweet._id === createTweet._id)) {
+            store.writeQuery({
+              query: GET_TWEETS_QUERY,
+              data: { getTweets: [{ ...createTweet }, ...data.getTweets] },
+            });
+          }
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+
+    this.props.navigation.goBack(null); // navigate back to HomeScreen
+  };
+
+  isDisabled() {
+    const { text } = this.state;
+    return text.length < 1;
+  }
+
   render() {
     return (
       <Wrapper>
@@ -74,7 +127,15 @@ class NewTweetScreen extends Component {
 
           <CountText>{280 - this.state.text.length}</CountText>
 
-          <TweetBtn>
+          <TweetBtn
+            onPress={this.onTweetSend}
+            disabled={this.isDisabled()}
+            style={
+              this.isDisabled()
+                ? { backgroundColor: colors.LIGHT_GRAY }
+                : { backgroundColor: colors.PRIMARY }
+            }
+          >
             <Text>Tweet</Text>
           </TweetBtn>
         </Container>
@@ -83,4 +144,8 @@ class NewTweetScreen extends Component {
   }
 }
 
-export default NewTweetScreen;
+const mapStateToProps = state => ({
+  user: state.user.info,
+});
+
+export default compose(graphql(CREATE_TWEET_MUTATION), connect(mapStateToProps))(NewTweetScreen);
