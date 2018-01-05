@@ -49,7 +49,7 @@ type Query {
 }
 
 type Mutation {
-  createTweet(text: String!, favoriteCount: Int!): Tweet
+  createTweet(text: String!): Tweet
   updateTweet(_id: ID!, text: String): Tweet
   deleteTweet(_id: ID!): Status
   signup(email: String!, fullName: String!, password: String!, avatar: String, username: String): Auth
