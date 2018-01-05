@@ -27,6 +27,10 @@ class HomeScreen extends Component {
     this._getUserInfo();
   }
 
+  onActionBtnPress = () => {
+    this.props.navigation.navigate('NewTweet');
+  };
+
   _getUserInfo = async () => {
     const { data: { me } } = await this.props.client.query({ query: GET_ME_QUERY });
     this.props.getUserInfo(me);
@@ -52,10 +56,16 @@ class HomeScreen extends Component {
           renderItem={this._renderItem}
         />
 
-        <ActionButton buttonColor={colors.PRIMARY} icon={<Icon size={25} color={colors.WHITE} name="feather" />} onPress={() => console.log('FAB')} />
+        <ActionButton
+          buttonColor={colors.PRIMARY}
+          icon={<Icon size={25} color={colors.WHITE} name="feather" />}
+          onPress={this.onActionBtnPress}
+        />
       </Wrapper>
     );
   }
 }
 
-export default withApollo(compose(graphql(GET_TWEETS_QUERY), connect(undefined, { getUserInfo }))(HomeScreen));
+export default withApollo(
+  compose(graphql(GET_TWEETS_QUERY), connect(undefined, { getUserInfo }))(HomeScreen)
+);
