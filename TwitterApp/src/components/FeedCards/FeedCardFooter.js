@@ -27,20 +27,16 @@ const ButtonText = styled.Text`
   padding-left: 10;
 `;
 
-const isFavorited = false;
-
-const FeedCardFooter = ({ likeCount }) => (
+const FeedCardFooter = ({ likeCount, isLiked, onLikePress }) => (
   <Wrapper>
     <Button>
       <SimpleLineIcons name="bubble" size={ICON_SIZE} color={colors.LIGHT_GRAY} />
-      <ButtonText>{likeCount}</ButtonText>
     </Button>
     <Button>
       <Entypo name="retweet" color={colors.LIGHT_GRAY} size={ICON_SIZE} />
-      <ButtonText>{likeCount}</ButtonText>
     </Button>
-    <Button>
-      <Entypo name="heart" color={isFavorited ? 'red' : colors.LIGHT_GRAY} size={ICON_SIZE} />
+    <Button onPress={onLikePress}>
+      <Entypo name="heart" color={isLiked ? 'crimson' : colors.LIGHT_GRAY} size={ICON_SIZE} />
       <ButtonText>{likeCount}</ButtonText>
     </Button>
   </Wrapper>

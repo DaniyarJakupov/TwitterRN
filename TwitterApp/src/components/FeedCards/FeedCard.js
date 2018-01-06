@@ -1,9 +1,12 @@
 // @flow
 import React, { Component } from 'react';
 import styled from 'styled-components/native';
+import { graphql } from 'react-apollo';
 
 import FeedCardHeader from './FeedCardHeader';
 import FeedCardFooter from './FeedCardFooter';
+
+import LIKE_TWEET_MUTATION from '../../graphql/mutation/likeTweet'; // graphql mutation
 
 const Wrapper = styled.View`
   width: 100%;
@@ -55,7 +58,7 @@ class FeedCard extends Component {
   };
 
   render() {
-    const { text, likeCount, createdAt, user } = this.props;
+    const { text, likeCount, isLiked, createdAt, user, like } = this.props;
 
     return (
       <Wrapper style={this.state.dimensions ? { height: this.state.dimensions.height } : null}>
@@ -72,11 +75,27 @@ class FeedCard extends Component {
             <CardContentText>{text}</CardContentText>
           </CardContentWrapper>
 
-          <FeedCardFooter likeCount={likeCount} />
+          <FeedCardFooter likeCount={likeCount} isLiked={isLiked} onLikePress={like} />
         </RightContainer>
       </Wrapper>
     );
   }
 }
 
-export default FeedCard;
+export default graphql(LIKE_TWEET_MUTATION, {
+  props: ({ ownProps, mutate }) => ({
+    like: () =>
+      mutate({
+        variables: { _id: ownProps._id },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          likeTweet: {
+            __typename: 'Tweet',
+            _id: ownProps._id,
+            likeCount: ownProps.isLiked ? ownProps.likeCount - 1 : ownProps.likeCount + 1,
+            isLiked: !ownProps.isLiked,
+          },
+        },
+      }),
+  }),
+})(FeedCard);
