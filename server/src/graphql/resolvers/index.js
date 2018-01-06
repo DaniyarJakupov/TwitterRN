@@ -24,4 +24,7 @@ export default {
     signup: UserResolver.signup,
     login: UserResolver.login,
   },
+  Subscription: {
+    tweetAdded: TweetResolvers.tweetAdded,
+  },
 };
