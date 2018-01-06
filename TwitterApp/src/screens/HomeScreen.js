@@ -13,6 +13,7 @@ import { colors } from '../utils/constants';
 
 import GET_TWEETS_QUERY from '../graphql/queries/getTweets'; // graphql query
 import GET_ME_QUERY from '../graphql/queries/me'; // graphql query
+import TWEET_ADDED_SUBSCRIPTION from '../graphql/subscriptions/tweetAdded'; // graphql query
 import { getUserInfo } from '../redux/actions'; // redux action
 
 const Wrapper = styled.View`
@@ -22,6 +23,28 @@ const Wrapper = styled.View`
 
 class HomeScreen extends Component {
   state = {};
+
+  componentWillMount() {
+    this.props.data.subscribeToMore({
+      document: TWEET_ADDED_SUBSCRIPTION,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) {
+          return prev;
+        }
+
+        const newTweet = subscriptionData.data.tweetAdded;
+
+        if (!prev.getTweets.find(tweet => tweet._id === newTweet._id)) {
+          return {
+            ...prev,
+            getTweets: [{ ...newTweet }, ...prev.getTweets],
+          };
+        }
+
+        return prev;
+      },
+    });
+  }
 
   componentDidMount() {
     this._getUserInfo();
