@@ -1,7 +1,7 @@
 /* @flow */
 import mongoose, { Schema } from 'mongoose';
 
-const LikedTweetSchema = new Schema({
+const LikeTweetSchema = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
     ref: 'User',
@@ -14,6 +14,6 @@ const LikedTweetSchema = new Schema({
   ],
 });
 
-LikedTweetSchema.index({ userId: 1 }, { unique: true });
+LikeTweetSchema.index({ userId: 1 }, { unique: true });
 
-export default mongoose.model('LikedTweet', LikedTweetSchema);
+export default mongoose.model('LikeTweet', LikeTweetSchema);
