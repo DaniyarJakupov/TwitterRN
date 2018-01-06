@@ -29,19 +29,19 @@ const ButtonText = styled.Text`
 
 const isFavorited = false;
 
-const FeedCardFooter = ({ favoriteCount }) => (
+const FeedCardFooter = ({ likeCount }) => (
   <Wrapper>
     <Button>
       <SimpleLineIcons name="bubble" size={ICON_SIZE} color={colors.LIGHT_GRAY} />
-      <ButtonText>{favoriteCount}</ButtonText>
+      <ButtonText>{likeCount}</ButtonText>
     </Button>
     <Button>
       <Entypo name="retweet" color={colors.LIGHT_GRAY} size={ICON_SIZE} />
-      <ButtonText>{favoriteCount}</ButtonText>
+      <ButtonText>{likeCount}</ButtonText>
     </Button>
     <Button>
       <Entypo name="heart" color={isFavorited ? 'red' : colors.LIGHT_GRAY} size={ICON_SIZE} />
-      <ButtonText>{favoriteCount}</ButtonText>
+      <ButtonText>{likeCount}</ButtonText>
     </Button>
   </Wrapper>
 );

@@ -6,7 +6,7 @@ export default gql`
       text
       _id
       createdAt
-      favoriteCount
+      likeCount
       user {
         username
         avatar

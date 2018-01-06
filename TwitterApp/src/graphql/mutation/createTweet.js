@@ -4,7 +4,7 @@ export default gql`
   mutation createTweet($text: String!) {
     createTweet(text: $text) {
       _id
-      favoriteCount
+      likeCount
       createdAt
       text
       user {

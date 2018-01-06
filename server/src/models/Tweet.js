@@ -12,7 +12,7 @@ const TweetSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
-    favoriteCount: {
+    likeCount: {
       type: Number,
       default: 0,
     },

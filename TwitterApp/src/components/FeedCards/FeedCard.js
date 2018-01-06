@@ -55,7 +55,7 @@ class FeedCard extends Component {
   };
 
   render() {
-    const { text, favoriteCount, createdAt, user } = this.props;
+    const { text, likeCount, createdAt, user } = this.props;
 
     return (
       <Wrapper style={this.state.dimensions ? { height: this.state.dimensions.height } : null}>
@@ -72,7 +72,7 @@ class FeedCard extends Component {
             <CardContentText>{text}</CardContentText>
           </CardContentWrapper>
 
-          <FeedCardFooter favoriteCount={favoriteCount} />
+          <FeedCardFooter likeCount={likeCount} />
         </RightContainer>
       </Wrapper>
     );
