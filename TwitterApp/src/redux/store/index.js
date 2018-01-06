@@ -39,7 +39,7 @@ export const client = new ApolloClient({
   networkInterface,
 });
 
-const middlewares = [client.middleware(), thunk, createLogger()];
+const middlewares = [client.middleware(), thunk];
 
 export const store = createStore(
   reducers(client),
