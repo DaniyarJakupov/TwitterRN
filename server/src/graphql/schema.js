@@ -36,7 +36,8 @@ type Tweet {
   _id: ID!
   text: String!
   user: User!
-  favoriteCount: Int!
+  likeCount: Int!
+  isLiked: Boolean 
   createdAt: Date!
   updatedAt: Date!
 }
