@@ -1,5 +1,6 @@
 /* @flow */
 import Tweet from '../../models/Tweet';
+import LikeTweet from '../../models/LikeTweet';
 import { requireAuth } from '../../services/auth';
 import { pubsub } from '../../config/pubsub';
 
@@ -73,6 +74,38 @@ export default {
       await tweet.remove();
       return {
         message: 'Tweet was deleted!',
+      };
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  likeTweet: async (_, { _id }, { user }) => {
+    try {
+      await requireAuth(user);
+      const likes = await LikeTweet.findOne({ userId: user._id });
+
+      if (likes.tweets.some(tweet => tweet.equals(_id))) {
+        likes.tweets.pull(_id); // remove tweet from LikeTweet collection
+        await likes.save();
+
+        const tweet = await Tweet.findById(_id);
+        const t = tweet.toJSON();
+
+        return {
+          isLiked: false,
+          ...t,
+        };
+      }
+      const tweet = await Tweet.findById(_id);
+      const t = tweet.toJSON();
+
+      likes.tweets.push(_id); // add tweet to LikeTweet collection
+      await likes.save();
+
+      return {
+        isLiked: true,
+        ...t,
       };
     } catch (error) {
       throw error;

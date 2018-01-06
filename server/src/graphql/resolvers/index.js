@@ -21,6 +21,7 @@ export default {
     createTweet: TweetResolvers.createTweet,
     updateTweet: TweetResolvers.updateTweet,
     deleteTweet: TweetResolvers.deleteTweet,
+    likeTweet: TweetResolvers.likeTweet,
     signup: UserResolver.signup,
     login: UserResolver.login,
   },

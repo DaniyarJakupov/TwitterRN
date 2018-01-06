@@ -1,5 +1,6 @@
 /* @flow */
 import User from '../../models/User';
+import LikeTweet from '../../models/LikeTweet';
 import { requireAuth } from '../../services/auth';
 
 export default {
@@ -7,6 +8,8 @@ export default {
     const [firstName, ...lastName] = fullName.split(' ');
     try {
       const user = await User.create({ firstName, lastName, ...rest });
+      await LikeTweet.create({ userId: user._id });
+
       return {
         token: user.createToken(),
       };
