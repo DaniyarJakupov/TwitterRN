@@ -16,10 +16,33 @@ export default {
     }
   },
 
+  // This resolver returns an array of tweets with additional isLiked property added to each one of it
   getTweets: async (_, args, { user }) => {
     try {
       await requireAuth(user);
-      return Tweet.find({}).sort({ createdAt: -1 });
+      const p1 = Tweet.find({}).sort({ createdAt: -1 });
+      const p2 = LikeTweet.findOne({ userId: user._id });
+
+      const [tweets, likes] = await Promise.all([p1, p2]);
+
+      const tweetsToSend = tweets.reduce((arr, tweet) => {
+        const tw = tweet.toJSON();
+
+        if (likes.tweets.some(t => t.equals(tweet._id))) {
+          arr.push({
+            ...tw,
+            isLiked: true,
+          });
+        } else {
+          arr.push({
+            ...tw,
+            isLiked: false,
+          });
+        }
+        return arr;
+      }, []);
+
+      return tweetsToSend;
     } catch (error) {
       throw error;
     }
