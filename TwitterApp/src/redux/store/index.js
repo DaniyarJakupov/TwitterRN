@@ -4,12 +4,12 @@ import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import ApolloClient, { createNetworkInterface } from 'apollo-client';
 import thunk from 'redux-thunk';
-import { createLogger } from 'redux-logger';
+import { SubscriptionClient, addGraphQLSubscriptions } from 'subscriptions-transport-ws';
+
 import reducers from '../reducers';
 
 const url =
   Platform.OS === 'ios' ? 'http://127.0.0.1:3000/graphql' : 'http://10.0.2.2:3000/graphql';
-
 const networkInterface = createNetworkInterface({
   uri: url,
 });
@@ -35,8 +35,16 @@ networkInterface.use([
   },
 ]);
 
+// Create a WebSocket client:
+const wsClient = new SubscriptionClient('ws://localhost:3000/subscriptions', {
+  reconnect: true,
+  connectionParams: {},
+});
+
+const networkInterfaceWithSubs = addGraphQLSubscriptions(networkInterface, wsClient);
+
 export const client = new ApolloClient({
-  networkInterface,
+  networkInterface: networkInterfaceWithSubs,
 });
 
 const middlewares = [client.middleware(), thunk];
