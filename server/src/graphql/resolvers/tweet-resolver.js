@@ -85,28 +85,7 @@ export default {
       await requireAuth(user);
       const likes = await LikeTweet.findOne({ userId: user._id });
 
-      if (likes.tweets.some(tweet => tweet.equals(_id))) {
-        likes.tweets.pull(_id); // remove tweet from LikeTweet collection
-        await likes.save();
-
-        const tweet = await Tweet.findById(_id);
-        const t = tweet.toJSON();
-
-        return {
-          isLiked: false,
-          ...t,
-        };
-      }
-      const tweet = await Tweet.findById(_id);
-      const t = tweet.toJSON();
-
-      likes.tweets.push(_id); // add tweet to LikeTweet collection
-      await likes.save();
-
-      return {
-        isLiked: true,
-        ...t,
-      };
+      return likes.userLikedTweet(_id);
     } catch (error) {
       throw error;
     }
