@@ -4,5 +4,6 @@ module.exports = {
     'no-console': 0,
     'no-underscore-dangle': 0,
     'func-names': 0,
+    'no-new': 0,
   },
 };
