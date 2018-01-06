@@ -1,27 +1,17 @@
 // @flow
 import React from 'react';
 import styled from 'styled-components/native';
-import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
+import distanceInWordsStrict from 'date-fns/distance_in_words_strict';
 
 const Wrapper = styled.View`
-  height: 50;
+  height: 30;
   width: 100%;
   flex-direction: row;
   align-items: center;
 `;
-const AvatarWrapper = styled.View`
-  flex: 0.2;
-  align-self: stretch;
-  justify-content: center;
-`;
 const MetaWrapper = styled.View`
   flex: 1;
   align-self: stretch;
-`;
-const Avatar = styled.Image`
-  width: 40;
-  height: 40;
-  border-radius: 20;
 `;
 
 const MetaTopContainer = styled.View`
@@ -30,13 +20,6 @@ const MetaTopContainer = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-`;
-
-const MetaBottomContainer = styled.View`
-  flex: 0.8;
-  align-self: stretch;
-  align-items: flex-start;
-  justify-content: center;
 `;
 
 const MetaFullName = styled.Text`
@@ -51,23 +34,17 @@ const MetaText = styled.Text`
   color: ${props => props.theme.LIGHT_GRAY};
 `;
 
-const FeedCardHeader = ({ user: { firstName, lastName, username, avatar }, createdAt }) => (
+const FeedCardHeader = ({ user: { firstName, lastName, username }, createdAt }) => (
   <Wrapper>
-    <AvatarWrapper>
-      <Avatar source={{ uri: avatar }} />
-    </AvatarWrapper>
-
     <MetaWrapper>
       <MetaTopContainer>
         <MetaFullName>
           {firstName} {lastName}
         </MetaFullName>
-        <MetaText style={{ marginLeft: 5 }}>@{username}</MetaText>
+        <MetaText numberOfLines={1} ellipsizeMode="tail" style={{ marginLeft: 5 }}>
+          @{username} &#8226; {distanceInWordsStrict(createdAt, new Date())}
+        </MetaText>
       </MetaTopContainer>
-
-      <MetaBottomContainer>
-        <MetaText>{distanceInWordsToNow(createdAt)} ago</MetaText>
-      </MetaBottomContainer>
     </MetaWrapper>
   </Wrapper>
 );

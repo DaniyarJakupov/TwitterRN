@@ -12,19 +12,19 @@ const Wrapper = styled.View`
   height: 40;
   width: 100%;
   flex-direction: row;
+  justify-content: space-between;
 `;
 const Button = styled.TouchableOpacity`
   flex: 1;
   flex-direction: row;
   align-items: center;
-  justify-content: space-around;
-  padding-horizontal: 32;
 `;
 
 const ButtonText = styled.Text`
-  font-size: 14;
-  font-weight: 500;
+  font-size: 16;
+  font-weight: 400;
   color: ${props => props.theme.LIGHT_GRAY};
+  padding-left: 10;
 `;
 
 const isFavorited = false;
