@@ -20,4 +20,13 @@ const TweetSchema = new Schema(
   { timestamps: true },
 );
 
+TweetSchema.statics = {
+  incrementLikeCount(tweetId) {
+    return this.findByIdAndUpdate(tweetId, { $inc: { likeCount: 1 } }, { new: true });
+  },
+  decrementLikeCount(tweetId) {
+    return this.findByIdAndUpdate(tweetId, { $inc: { likeCount: -1 } }, { new: true });
+  },
+};
+
 export default mongoose.model('Tweet', TweetSchema);
