@@ -7,6 +7,7 @@ export default gql`
       _id
       createdAt
       likeCount
+      isLiked
       user {
         username
         avatar
