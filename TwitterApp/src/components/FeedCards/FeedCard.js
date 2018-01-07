@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import styled from 'styled-components/native';
-import { graphql } from 'react-apollo';
+import { graphql, gql } from 'react-apollo';
 import Placeholder from 'rn-placeholder';
 
 import FeedCardHeader from './FeedCardHeader';
@@ -119,6 +119,24 @@ class FeedCard extends Component {
     );
   }
 }
+
+FeedCard.fragments = {
+  tweet: gql`
+    fragment FeedCard on Tweet {
+      text
+      _id
+      createdAt
+      likeCount
+      isLiked
+      user {
+        username
+        avatar
+        lastName
+        firstName
+      }
+    }
+  `,
+};
 
 export default graphql(LIKE_TWEET_MUTATION)(FeedCard);
 
