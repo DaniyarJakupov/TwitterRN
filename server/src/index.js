@@ -17,6 +17,8 @@ const app = express();
 
 middleware(app);
 
+app.use((req, res, next) => setTimeout(next, 1000));
+
 /* GraphQL server setup */
 const schema = makeExecutableSchema({
   typeDefs,
