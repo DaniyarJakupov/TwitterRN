@@ -60,6 +60,7 @@ type Mutation {
 
 type Subscription {
    tweetAdded: Tweet
+   tweetLiked: Tweet
 }
 
 schema {
