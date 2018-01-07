@@ -11,7 +11,7 @@ import LIKE_TWEET_MUTATION from '../../graphql/mutation/likeTweet'; // graphql m
 
 const Wrapper = styled.View`
   width: 100%;
-  min-height: 140;
+  min-height: 100;
   background-color: ${props => props.theme.WHITE};
   shadow-color: ${props => props.theme.SECONDARY};
   shadow-offset: 0px 2px;
@@ -86,10 +86,9 @@ class FeedCard extends Component {
     const { user, text, likeCount, isLiked, createdAt, placeholder, isLoaded } = this.props;
     if (placeholder) {
       return (
-        <Wrapper>
+        <Wrapper style={{ minHeight: 140 }}>
           <Placeholder.ImageContent
             onReady={!isLoaded}
-            lineSpacing={5}
             lineNumber={2}
             animate="shine"
             lastLineWidth="40%"
