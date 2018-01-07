@@ -13,7 +13,7 @@ import { colors } from '../utils/constants';
 
 import GET_TWEETS_QUERY from '../graphql/queries/getTweets'; // graphql query
 import GET_ME_QUERY from '../graphql/queries/me'; // graphql query
-import TWEET_ADDED_SUBSCRIPTION from '../graphql/subscriptions/tweetAdded'; // graphql query
+import TWEET_ADDED_SUBSCRIPTION from '../graphql/subscriptions/tweetAdded'; // graphql subscriptuon
 import { getUserInfo } from '../redux/actions'; // redux action
 
 const Wrapper = styled.View`
