@@ -4,6 +4,7 @@ import { Dimensions, LayoutAnimation } from 'react-native';
 import styled from 'styled-components/native';
 
 import SignupForm from '../components/SignupForm';
+import LoginForm from '../components/LoginForm';
 
 const { height } = Dimensions.get('window');
 
@@ -12,7 +13,7 @@ const Wrapper = styled.View`
   background-color: ${props => props.theme.SECONDARY};
   position: relative;
 `;
-const Touchable = styled.TouchableOpacity`
+const LoginBtn = styled.TouchableOpacity`
   padding: 25px;
 `;
 const SignupBtn = styled.TouchableOpacity`
@@ -54,12 +55,20 @@ const LoginText = styled.Text`
 class AuthScreen extends Component {
   state = {
     showSignup: false,
+    showLogin: false,
   };
 
   onSignupPress = () => {
     LayoutAnimation.easeInEaseOut();
     this.setState(prevState => ({
       showSignup: !prevState.showSignup,
+    }));
+  };
+
+  onLoginPress = () => {
+    LayoutAnimation.easeInEaseOut();
+    this.setState(prevState => ({
+      showLogin: !prevState.showLogin,
     }));
   };
 
@@ -70,6 +79,12 @@ class AuthScreen extends Component {
           <SignupForm onBackPress={this.onSignupPress} />
         </Wrapper>
       );
+    } else if (this.state.showLogin) {
+      return (
+        <Wrapper>
+          <LoginForm onBackPress={this.onLoginPress} />
+        </Wrapper>
+      );
     }
     return (
       <Wrapper>
@@ -78,9 +93,9 @@ class AuthScreen extends Component {
         </SignupBtn>
 
         <LoginWrapper>
-          <Touchable>
+          <LoginBtn onPress={this.onLoginPress}>
             <LoginText>Already have an account?</LoginText>
-          </Touchable>
+          </LoginBtn>
         </LoginWrapper>
       </Wrapper>
     );
