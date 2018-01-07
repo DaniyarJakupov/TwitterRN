@@ -78,6 +78,7 @@ class NewTweetScreen extends Component {
             text: this.state.text,
             likeCount: 0,
             createdAt: new Date(),
+            isLiked: false,
             user: {
               __typename: 'User',
               avatar: user.avatar,

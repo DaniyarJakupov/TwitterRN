@@ -47,14 +47,13 @@ const Avatar = styled.Image`
 
 class FeedCard extends Component {
   state = {
-    dimensions: undefined,
+    dimensions: { height: undefined },
   };
 
   onLayout = event => {
-    if (this.state.dimensions) return; // layout was already called
+    // layout was already called
     const { height } = event.nativeEvent.layout;
-
-    this.setState({ dimensions: { height: height + 80 } });
+    this.setState({ dimensions: { height } });
   };
 
   /* GraphQL Mutation */
@@ -80,9 +79,8 @@ class FeedCard extends Component {
 
   render() {
     const { text, likeCount, isLiked, createdAt, user } = this.props;
-
     return (
-      <Wrapper style={this.state.dimensions ? { height: this.state.dimensions.height } : null}>
+      <Wrapper>
         <LeftContainer>
           <AvatarWrapper>
             <Avatar source={{ uri: user.avatar }} />

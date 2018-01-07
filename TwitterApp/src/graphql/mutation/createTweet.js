@@ -5,6 +5,7 @@ export default gql`
     createTweet(text: $text) {
       _id
       likeCount
+      isLiked
       createdAt
       text
       user {
