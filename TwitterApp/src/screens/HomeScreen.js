@@ -87,12 +87,18 @@ class HomeScreen extends Component {
 
   _renderItem = ({ item }) => <FeedCard {...item} />;
 
+  _renderPlaceholder = () => <FeedCard placeholder isLoaded={this.props.data.loading} />;
+
   render() {
     const { data } = this.props;
     if (data.loading) {
       return (
         <Wrapper>
-          <ActivityIndicator size="large" />
+          <FlatList
+            data={[1, 2, 3, 4]}
+            keyExtractor={item => item}
+            renderItem={this._renderPlaceholder}
+          />
         </Wrapper>
       );
     }

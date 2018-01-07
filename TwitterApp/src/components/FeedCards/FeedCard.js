@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components/native';
 import { graphql } from 'react-apollo';
+import Placeholder from 'rn-placeholder';
 
 import FeedCardHeader from './FeedCardHeader';
 import FeedCardFooter from './FeedCardFooter';
@@ -10,6 +11,7 @@ import LIKE_TWEET_MUTATION from '../../graphql/mutation/likeTweet'; // graphql m
 
 const Wrapper = styled.View`
   width: 100%;
+  min-height: 140;
   background-color: ${props => props.theme.WHITE};
   shadow-color: ${props => props.theme.SECONDARY};
   shadow-offset: 0px 2px;
@@ -43,6 +45,9 @@ const Avatar = styled.Image`
   width: 50;
   height: 50;
   border-radius: 25;
+`;
+const Content = styled.View`
+  flex: 1;
 `;
 
 class FeedCard extends Component {
@@ -78,7 +83,22 @@ class FeedCard extends Component {
   };
 
   render() {
-    const { text, likeCount, isLiked, createdAt, user } = this.props;
+    const { user, text, likeCount, isLiked, createdAt, placeholder, isLoaded } = this.props;
+    if (placeholder) {
+      return (
+        <Wrapper>
+          <Placeholder.ImageContent
+            onReady={!isLoaded}
+            lineSpacing={5}
+            lineNumber={2}
+            animate="shine"
+            lastLineWidth="40%"
+            hasRadius
+            size={50}
+          />
+        </Wrapper>
+      );
+    }
     return (
       <Wrapper>
         <LeftContainer>
