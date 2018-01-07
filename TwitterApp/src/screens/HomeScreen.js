@@ -11,10 +11,12 @@ import FeedCard from '../components/FeedCards/FeedCard';
 
 import { colors } from '../utils/constants';
 
+import { getUserInfo } from '../redux/actions'; // redux action
+
 import GET_TWEETS_QUERY from '../graphql/queries/getTweets'; // graphql query
 import GET_ME_QUERY from '../graphql/queries/me'; // graphql query
 import TWEET_ADDED_SUBSCRIPTION from '../graphql/subscriptions/tweetAdded'; // graphql subscriptuon
-import { getUserInfo } from '../redux/actions'; // redux action
+import TWEET_LIKED_SUBSCRIPTION from '../graphql/subscriptions/tweetLiked'; // graphql subscriptuon
 
 const Wrapper = styled.View`
   flex: 1;
@@ -42,6 +44,30 @@ class HomeScreen extends Component {
         }
 
         return prev;
+      },
+    });
+
+    this.props.data.subscribeToMore({
+      document: TWEET_LIKED_SUBSCRIPTION,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) {
+          return prev;
+        }
+
+        const newTweet = subscriptionData.data.tweetLiked;
+
+        return {
+          ...prev,
+          getTweets: prev.getTweets.map(
+            tweet =>
+              (tweet._id === newTweet._id
+                ? {
+                  ...tweet,
+                  likeCount: newTweet.likeCount,
+                }
+                : tweet)
+          ),
+        };
       },
     });
   }
