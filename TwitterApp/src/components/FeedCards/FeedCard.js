@@ -57,8 +57,29 @@ class FeedCard extends Component {
     this.setState({ dimensions: { height: height + 80 } });
   };
 
+  /* GraphQL Mutation */
+  onLikePress = async () => {
+    const { _id, isLiked, likeCount } = this.props;
+    try {
+      await this.props.mutate({
+        variables: { _id },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          likeTweet: {
+            __typename: 'Tweet',
+            _id,
+            likeCount: isLiked ? likeCount - 1 : likeCount + 1,
+            isLiked: !isLiked,
+          },
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  };
+
   render() {
-    const { text, likeCount, isLiked, createdAt, user, like } = this.props;
+    const { text, likeCount, isLiked, createdAt, user } = this.props;
 
     return (
       <Wrapper style={this.state.dimensions ? { height: this.state.dimensions.height } : null}>
@@ -75,27 +96,29 @@ class FeedCard extends Component {
             <CardContentText>{text}</CardContentText>
           </CardContentWrapper>
 
-          <FeedCardFooter likeCount={likeCount} isLiked={isLiked} onLikePress={like} />
+          <FeedCardFooter likeCount={likeCount} isLiked={isLiked} onLikePress={this.onLikePress} />
         </RightContainer>
       </Wrapper>
     );
   }
 }
 
-export default graphql(LIKE_TWEET_MUTATION, {
-  props: ({ ownProps, mutate }) => ({
-    like: () =>
-      mutate({
-        variables: { _id: ownProps._id },
-        optimisticResponse: {
-          __typename: 'Mutation',
-          likeTweet: {
-            __typename: 'Tweet',
-            _id: ownProps._id,
-            likeCount: ownProps.isLiked ? ownProps.likeCount - 1 : ownProps.likeCount + 1,
-            isLiked: !ownProps.isLiked,
-          },
-        },
-      }),
-  }),
-})(FeedCard);
+export default graphql(LIKE_TWEET_MUTATION)(FeedCard);
+
+// {
+//   props: ({ ownProps, mutate }) => ({
+//     like: () =>
+//       mutate({
+//         variables: { _id: ownProps._id },
+//         optimisticResponse: {
+//           __typename: 'Mutation',
+//           likeTweet: {
+//             __typename: 'Tweet',
+//             _id: ownProps._id,
+//             likeCount: ownProps.isLiked ? ownProps.likeCount - 1 : ownProps.likeCount + 1,
+//             isLiked: !ownProps.isLiked,
+//           },
+//         },
+//       }),
+//   }),
+// }
